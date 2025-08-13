@@ -1,0 +1,32 @@
+API_STAR_WARS/
+│
+├─ .github/
+    └─ workflows/
+        └─ ci-cd.yml
+├─ .gitignore/
+├─ DOCS/
+    └─ ESTRUTURA.txt
+├─ public/
+    ├─ Contents/
+        ├─ CSS/
+            └─ principal.css
+        └─ JS/
+            └─ principal.js
+    ├─ Controllers/
+        └─ Filme_Controller.php
+    ├─ DAOS/
+        ├─ ConexaoDAO.php
+        └─ Helpers.php
+    ├─ Models/
+        └─ Filmes.php
+    ├─ Views/
+        ├─ template/
+            ├─ footer.php
+            └─ header.php
+        └─ Principal.php
+    ├─ autoload.php
+    └─ index.php
+├─ .env
+├─ docker-compose.yml
+├─ Dockerfile
+└─ README.md
