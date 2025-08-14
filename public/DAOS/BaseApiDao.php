@@ -1,5 +1,5 @@
 <?php
-class ConexaoDAO
+class BaseApiDao
 {
     private $baseUrl;
 
