@@ -31,4 +31,4 @@ API que pegará as informações de um determinado lugar, uma URL e apresentará
 ## Depois de tudo isto
 
 * Abra seu Docker e veja se todas as atividades do container estão funcionando perfeitamente.
-* Tudo estando certo, abra seu navegador e digite "http://localhost:8080/public/DAOS/CreateTable.php" para criar a tabela, "https://localhost:8080", a tela inicial do projeto aparecerá, daí é só iniciar a pesquisa sobre o Star Wars.
+* Tudo estando certo, abra seu navegador e digite "http://localhost:8080/public/data/CreateTable.php" para criar a tabela, "https://localhost:8080", a tela inicial do projeto aparecerá, daí é só iniciar a pesquisa sobre o Star Wars.
