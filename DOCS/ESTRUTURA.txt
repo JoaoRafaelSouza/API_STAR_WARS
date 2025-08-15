@@ -9,14 +9,21 @@ API_STAR_WARS/
 ├─ public/
     ├─ Contents/
         ├─ CSS/
+            ├─ bootstrap.min.css
             └─ principal.css
         └─ JS/
+            ├─ bootstrap-notify.min.js
+            ├─ bootstrap.bundle.min.js
+            ├─ bootstrap.min.js
             └─ principal.js
     ├─ Controllers/
         └─ Filme_Controller.php
     ├─ DAOS/
-        ├─ ConexaoDAO.php
+        ├─ BaseApiDao.php
+        ├─ ConexaoDao.php
         └─ Helpers.php
+    ├─ data/
+        └─ CreateTable.php
     ├─ Models/
         └─ Filmes.php
     ├─ Views/
@@ -24,6 +31,7 @@ API_STAR_WARS/
             ├─ footer.php
             └─ header.php
         └─ Principal.php
+    ├─ .htaccess
     ├─ autoload.php
     └─ index.php
 ├─ .env

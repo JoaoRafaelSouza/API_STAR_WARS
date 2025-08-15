@@ -1,11 +1,13 @@
 <?php
+namespace DAOS;
+use Exception;
 class BaseApiDao
 {
     private $baseUrl;
 
     public function __construct()
     {
-        $this->baseUrl = getenv('API_BASE_URL') ?: 'https://swapi.dev/api';
+        $this->baseUrl = getenv('API_BASE_URL') ?: 'https://www.swapi.tech/api';
     }
 
     public function get($endpoint)

@@ -1,14 +1,18 @@
 <?php
 spl_autoload_register(function ($class) {
-    $paths = [
-        __DIR__ . '/Controllers/' . $class . '.php',
-        __DIR__ . '/Models/' . $class . '.php',
-        __DIR__ . '/DAOS/' . $class . '.php'
+    $prefixes = [
+        'Controllers\\' => __DIR__ . '/Controllers/',
+        'Models\\' => __DIR__ . '/Models/',
+        'DAOS\\' => __DIR__ . '/DAOS/'
     ];
 
-    foreach ($paths as $path) {
-        if (file_exists($path)) {
-            require_once $path;
+    foreach ($prefixes as $prefix => $baseDir) {
+        if (strpos($class, $prefix) === 0) {
+            $relativeClass = substr($class, strlen($prefix));
+            $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+            if (file_exists($file)) {
+                require $file;
+            }
         }
     }
 });

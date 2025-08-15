@@ -1,26 +1,29 @@
 <?php
-class ConexaoDAO
+namespace DAOS;
+class ConexaoDao
 {
-    private $baseUrl;
+    private static $conn;
 
-    public function __construct()
+    public static function getConnection()
     {
-        $this->baseUrl = getenv('API_BASE_URL') ?: 'https://swapi.dev/api';
-    }
+        if (!self::$conn) {
+            $host = 'db'; // nome do serviço no docker-compose
+            $dbname = getenv('MYSQL_DATABASE') ?: 'api';
+            $user = getenv('MYSQL_USER') ?: 'admin';
+            $pass = getenv('MYSQL_PASSWORD') ?: '123';
+            $port = getenv('DB_PORT') ?: '3306';
 
-    public function get($endpoint)
-    {
-        $url = $this->baseUrl . $endpoint;
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            throw new Exception('Erro ao conectar: ' . curl_error($ch));
+            try {
+                self::$conn = new PDO(
+                    "mysql:host={$host};port={$port};dbname={$dbname};charset=utf8",
+                    $user,
+                    $pass,
+                    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                );
+            } catch (PDOException $e) {
+                die("Erro de conexão: " . $e->getMessage());
+            }
         }
-
-        curl_close($ch);
-        return json_decode($response, true);
+        return self::$conn;
     }
 }
