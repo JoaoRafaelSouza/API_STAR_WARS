@@ -10,37 +10,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: api
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: 123
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
-      # 1. Clona o repositório
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Configura Docker Buildx (para build eficiente)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 3. Login no Docker Hub (opcional, se for publicar a imagem)
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # 4. Build da imagem com Docker Compose
       - name: Build Docker image
         run: docker-compose build
 
-      # 5. Testa se containers sobem corretamente
       - name: Run containers
         run: docker-compose up -d
 
-      # 6. Testa se Apache está rodando
-      - name: Test HTTP Response
+      - name: Wait for Apache
         run: |
-          sleep 10
-          curl -I http://localhost:8080 || exit 1
+          echo "Esperando o container subir..."
+          sleep 15
 
-      # 7. (Opcional) Publica a imagem no Docker Hub
-      - name: Push Docker image
-        if: github.ref == 'refs/heads/main'
-        run: docker-compose push
+      - name: Test HTTP response inside container
+        run: |
+          docker exec apache_php curl -I http://localhost || exit 1
+
+      - name: Shut down containers
+        run: docker-compose down
