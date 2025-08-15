@@ -8,14 +8,28 @@ if (file_exists(__DIR__ . '/../.env')) {
     }
 }
 
+require __DIR__ . '/Views/template/header.php';
+
 $rota = $_GET['rota'] ?? '';
+$id = $_GET['id'] ?? null;
+
+$controller = new Controllers\Filme_Controller();
 
 switch ($rota) {
     case 'filmes':
-        $controller = new Controllers\Filme_Controller();
-        $controller->listarFilmes();
+        $controller->ListarFilmes();
+        break;
+
+    case 'detalhes':
+        if ($id)
+            $controller->DetalhesFilme($id);
+        else
+            header('Location: index.php');
         break;
 
     default:
-        require __DIR__ . '/Views/Principal.php';
+        $controller->ListarFilmes();
+        break;
 }
+
+require __DIR__ . '/Views/template/footer.php';

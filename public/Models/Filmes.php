@@ -3,44 +3,47 @@ namespace Models;
 
 class Filmes
 {
-    public $title;
-    public $episode_id;
-    public $opening_crawl;
-    public $release_date;
-    public $director;
-    public $producer;
-    public $characters = []; // array de nomes
-    public $age; // idade do filme: anos, meses, dias
+    public $id;
+    public $nome;
+    public $numero_episodio;
+    public $sinopse;
+    public $data_lancamento;
+    public $diretor;
+    public $produtores;
+    public $personagens; // pode ser string (JSON) ou array
+    public $idade_filme;
 
     public function __construct($data)
     {
-        $this->title = $data['title'] ?? '';
-        $this->episode_id = $data['episode_id'] ?? '';
-        $this->opening_crawl = $data['opening_crawl'] ?? '';
-        $this->release_date = $data['release_date'] ?? '';
-        $this->director = $data['director'] ?? '';
-        $this->producer = $data['producer'] ?? '';
-        $this->characters = $data['characters'] ?? [];
+        $this->id = $data['id'] ?? null;
+        $this->nome = $data['nome'] ?? '';
+        $this->numero_episodio = $data['numero_episodio'] ?? 0;
+        $this->sinopse = $data['sinopse'] ?? '';
+        $this->data_lancamento = $data['data_lancamento'] ?? '';
+        $this->diretor = $data['diretor'] ?? '';
+        $this->produtores = $data['produtores'] ?? '';
 
-        $this->calculateAge();
-    }
-
-    private function calculateAge()
-    {
-        if (!$this->release_date) {
-            $this->age = '';
-            return;
+        // Se vier JSON, converte para array
+        if (isset($data['personagens']) && is_string($data['personagens'])) {
+            $this->personagens = json_decode($data['personagens'], true) ?? [];
+        } else {
+            $this->personagens = $data['personagens'] ?? [];
         }
 
-        $release = new \DateTime($this->release_date);
+        // Calcula idade do filme
+        if (!empty($data['data_lancamento'])) {
+            $this->idade_filme = $this->calcularIdade($data['data_lancamento']);
+        } else {
+            $this->idade_filme = '';
+        }
+    }
+
+    private function CalcularIdade($release_date)
+    {
+        $release = new \DateTime($release_date);
         $today = new \DateTime();
         $diff = $release->diff($today);
 
-        $this->age = sprintf(
-            '%d anos, %d meses e %d dias',
-            $diff->y,
-            $diff->m,
-            $diff->d
-        );
+        return sprintf('%d anos, %d meses e %d dias', $diff->y, $diff->m, $diff->d);
     }
 }

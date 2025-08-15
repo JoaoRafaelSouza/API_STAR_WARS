@@ -30,6 +30,8 @@ API_STAR_WARS/
         ├─ template/
             ├─ footer.php
             └─ header.php
+        ├─ Catalogo.php
+        ├─ Detalhe.php
         └─ Principal.php
     ├─ .htaccess
     ├─ autoload.php
